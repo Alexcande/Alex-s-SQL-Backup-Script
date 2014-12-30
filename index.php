@@ -18,26 +18,70 @@ $pass = "toor";
 #Nom de la base de donnée MySQL
 $db = "testDB";
 
-// Autres paremètres (Ne pas modifier si on est pas sûr de ses actes)
-
-#Paramètres de la date
-$date = date('d-m');
-#Nom du fichier
-$file = "/home/obsidia3/public_html/save-'$date'.sql";
 
 ######################################################################
 
 // Requêtes SQL et création du fichier
 // NE PAS MODIFIER
-$result = mysql_connect("$host", "$user", "$pass")
-or die("Impossible de se connecter : " . mysql_error());
-$result = mysql_query(SELECT '$db' INTO OUTFILE '$file' FROM `wp_commentmeta`, `wp_comments`, `wp_links`, `wp_options`, `wp_postmeta`, `wp_posts`, `wp_terms`, `wp_term_relationships`, `wp_term_taxonomy`, `wp_usermeta`, `wp_users`);
+
+function backup_tables($host,$user,$pass,$db,$tables = '*')
+{
+	
+$link = mysql_connect($host,$user,$pass);
+mysql_select_db($db,$link);
+	
+	if($tables == '*')
+	{
+		$tables = array();
+		$result = mysql_query('SHOW TABLES');
+		while($row = mysql_fetch_row($result))
+		{
+			$tables[] = $row[0];
+		}
+	}
+	else
+	{
+		$tables = is_array($tables) ? $tables : explode(',',$tables);
+	}
+	
+	foreach($tables as $table)
+	{
+		$result = mysql_query('SELECT * FROM '.$table);
+		$num_fields = mysql_num_fields($result);
+		
+		$return.= 'DROP TABLE '.$table.';';
+		$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE '.$table));
+		$return.= "\n\n".$row2[1].";\n\n";
+		
+		for ($i = 0; $i < $num_fields; $i++) 
+		{
+			while($row = mysql_fetch_row($result))
+			{
+				$return.= 'INSERT INTO '.$table.' VALUES(';
+				for($j=0; $j<$num_fields; $j++) 
+				{
+					$row[$j] = addslashes($row[$j]);
+					$row[$j] = ereg_replace("\n","\\n",$row[$j]);
+					if (isset($row[$j])) { $return.= '"'.$row[$j].'"' ; } else { $return.= '""'; }
+					if ($j<($num_fields-1)) { $return.= ','; }
+				}
+				$return.= ");\n";
+			}
+		}
+		$return.="\n\n\n";
+	}
+	
+	$handle = fopen('backup-'.date(d-m-Y).'.sql','w+');
+	fwrite($handle,$return);
+	fclose($handle);
+}
 
 ######################################################################
 
-// API et envoi du fichier sur Dropbox
+// Envoi du fichier sur Dropbox
 // NE PAS MODIFIER
 
-/* COMING SOON */
+require_once "dropbox-sdk/Dropbox/autoload.php";
+/* FONCTION EN CREATION /*
 
 ?>

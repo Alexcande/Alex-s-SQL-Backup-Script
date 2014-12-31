@@ -23,6 +23,9 @@ sauvegarde y est !
 6) Vous pouvez ajouter une tache CRON à votre serveur pour rendre la
 sauvegarde automatique.
 
+7) Vous pouvez supprimer les fichiers install-dbx.php et app-info.json pour des
+raisons de sécurité.
+
 --
 
 ## Besoin de support ? ##

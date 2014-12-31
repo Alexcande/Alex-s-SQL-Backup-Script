@@ -20,9 +20,9 @@ $pass = "toor";
 $db = "testDB";
 
 #Activer l'envoi sur Dropbox (true ou false)
-$dbxon = "true"
+$dbxon = "false";
 #Token Dropbox obtenu dans install-dbx.php
-$accessToken = "YOUR_ACCESS_TOKEN"
+$accessToken = "YOUR_ACCESS_TOKEN";
 
 
 ######################################################################
@@ -98,6 +98,6 @@ if($dbxon == "true")
 	}
 else
 	{
-	
+# Fonction d'upload desactivée
 	}
 ?>

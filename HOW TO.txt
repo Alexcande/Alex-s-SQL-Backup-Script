@@ -1,0 +1,30 @@
+##########################
+#Alex's SQL Backup Script#
+#-----Mode d'emploi------#
+##########################
+
+1) Uploadez le dossier contenant le script sur votre serveur 
+web et nommez-le comme vous voulez.
+
+2) Créez un code API et un API_SECRET dropbox (des tonnes de tutos existent 
+pour ça) et entrez-les dans le fichier "app-info.json" 
+
+3) Rendez vous sur http://VOTRE_SERVEUR/DOSSIER_SAUVEGARDE/install-dbx.php
+et connectez vous à votre compte dropbox. Copiez et concervez précieusement
+votre TOKEN !
+
+4) Editez index.php et renseignez toutes les informations demandées, y compris
+le TOKEN dropbox.
+
+5) Rendez-vous sur http://VOTRE_SERVEUR/DOSSIER_SAUVEGARDE/index.php 
+Normalement la page peut mettre du temps à charger. Vérifiez votre dropbox, votre
+sauvegarde y est !
+
+6) Vous pouvez ajouter une tache CRON à votre serveur pour rendre la
+sauvegarde automatique.
+
+--
+
+## Besoin de support ? ##
+alexcande.informatique@gmail.com
+http://www.alexcande.fr

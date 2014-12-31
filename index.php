@@ -1,12 +1,13 @@
 <?php
 ######################################################################
-# Alex-MySQL-Backup-Script v0.1 ALPHA
+# Alex-MySQL-Backup-Script v0.8 ALPHA
 #
 # Script de sauvegarde de BDD entière
 # Veuillez ajouter une tâche CRON pour le rendre automatique
+# Veuillez aussi visiter la page install-dbx.php avec votre navigateur et editer le fichier app-info.json
 ######################################################################
 
-// Renseignez les informations de connexion à la base de donnée 
+// Renseignez les informations de base
 // (se trouvent en général dans le fichier config.php de votre site)
 
 #Adresse de connexion au serveur MySQL
@@ -17,6 +18,11 @@ $user = "root";
 $pass = "toor";
 #Nom de la base de donnée MySQL
 $db = "testDB";
+
+#Activer l'envoi sur Dropbox (true ou false)
+$dbxon = "true"
+#Token Dropbox obtenu dans install-dbx.php
+$accessToken = "YOUR_ACCESS_TOKEN"
 
 
 ######################################################################
@@ -81,7 +87,17 @@ mysql_select_db($db,$link);
 // Envoi du fichier sur Dropbox
 // NE PAS MODIFIER
 
-require_once "dropbox-sdk/Dropbox/autoload.php";
-/* FONCTION EN CREATION /*
-
+if($dbxon == "true")
+	{
+	require_once "dropbox-sdk/Dropbox/autoload.php";
+	use \Dropbox as dbx;
+	$dbxClient = new dbx\Client($accessToken, "PHP-Example/1.0");
+	$f = fopen('backup-'.date(d-m-Y).'.sql', 'rb');
+	$result = $dbxClient->uploadFile('/save/'.date(d-m-Y).'.sql', dbx\WriteMode::add(), $f);
+	$closing = fclose($f);
+	}
+else
+	{
+	
+	}
 ?>
